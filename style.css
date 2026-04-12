@@ -1,0 +1,111 @@
+/* Matrix Al-Zoka Global Style 2026 */
+
+:root {
+    --matrix-green: #00ff41;    /* أخضر ماتريكس نيون */
+    --danger-red: #ff0000;     /* أحمر هجومي للتحذيرات */
+    --glass-bg: rgba(255, 255, 255, 0.05); /* تأثير الزجاج الشفاف */
+    --deep-gray: #0d0d0d;      /* رمادي احترافي */
+    --text-muted: #888888;
+}
+
+body {
+    background: radial-gradient(circle, #1a1a1a, #050505);
+    color: #ffffff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    direction: rtl;
+    overflow-x: hidden;
+}
+
+/* تصميم الكروت الزجاجية Glassmorphism */
+.glass-panel {
+    background: var(--glass-bg);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(0, 255, 65, 0.1);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+    transition: 0.3s ease-in-out;
+}
+
+/* الأزرار الاحترافية */
+.btn {
+    padding: 12px 25px;
+    border-radius: 50px;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    transition: 0.3s all;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-green {
+    background: linear-gradient(135deg, var(--matrix-green), #008f11);
+    color: #000;
+    box-shadow: 0 0 15px rgba(0, 255, 65, 0.4);
+}
+
+.btn-red {
+    background: linear-gradient(135deg, var(--danger-red), #b30000);
+    color: #fff;
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.4);
+}
+
+.btn:hover {
+    transform: translateY(-3px) scale(1.05);
+}
+
+/* العناوين والتوهج */
+.glow-green {
+    color: var(--matrix-green);
+    text-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
+}
+
+.glow-red {
+    color: var(--danger-red);
+    text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+}
+
+/* تصميم الجداول (Dashboard) */
+.matrix-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.matrix-table th {
+    background: rgba(0, 255, 65, 0.15);
+    color: var(--matrix-green);
+    padding: 15px;
+    text-align: right;
+    border-bottom: 2px solid var(--matrix-green);
+}
+
+.matrix-table td {
+    padding: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* أنيميشن التحميل */
+.loader {
+    border: 3px solid #333;
+    border-top: 3px solid var(--matrix-green);
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    animation: spin 1s linear infinite;
+    display: inline-block;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* تنسيق النصوص */
+.muted { color: var(--text-muted); font-size: 13px; }
